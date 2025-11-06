@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>《倫敦蒙難記》推理解謎｜簡化版（行動裝置優化）</title>
-  <meta name="description" content="以孫中山倫敦蒙難事件為主題的低難度推理解謎小遊戲。手機可用：證據歸類關卡改為點選放置（tap-to-place），同時保留桌面拖放。" />
+  <title>《倫敦蒙難記》推理解謎｜簡化版（桌機拖拉／手機填入）</title>
+  <meta name="description" content="以孫中山倫敦蒙難事件為主題的低難度推理解謎小遊戲。桌機保留拖拉，手機改用下拉選單填入分類。" />
   <style>
     :root{ --bg:#0e1320; --panel:#101827; --ink:#e6efff; --muted:#9db0cf; --accent:#ffb84d; --accent2:#70d6ff; --ok:#1ad1a5; --warn:#ff6b6b; }
     *{box-sizing:border-box}
@@ -44,11 +44,16 @@
     .path{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
     .crumb{padding:4px 8px; background:#13203a; border:1px solid #26426f; border-radius:999px; font-size:12px}
 
+    /* Puzzle 3 desktop board */
     .board{display:grid; gap:10px; grid-template-columns:1fr 1fr 1fr}
     .zone{min-height:120px; border:1px dashed #2b3a64; border-radius:12px; padding:8px; background:#0c1426}
     .zone h4{margin:0 0 6px; color:#9cc0ff}
     .clue{display:inline-block; margin:6px; padding:6px 10px; border:1px solid #2a3b60; background:#17233a; border-radius:999px; cursor:grab; font-size:13px}
-    .clue.selected{outline:2px solid var(--accent2); box-shadow:0 0 0 2px rgba(112,214,255,.25) inset}
+
+    /* Puzzle 3 mobile form */
+    .p3-mobile-row{display:flex; align-items:center; gap:10px; padding:8px; border:1px solid #2a3c66; border-radius:10px; background:#121a2c; margin-bottom:8px}
+    .p3-label{min-width:120px}
+    select{padding:8px; border-radius:8px; border:1px solid #2a3c66; background:#0c1426; color:var(--ink)}
 
     .hint{color:#d6d2a3; background:linear-gradient(180deg,#2b2815,#1e1b0f); border:1px solid #5d4c1a; padding:8px; border-radius:10px}
 
@@ -58,13 +63,12 @@
 
     .p5-block{border:1px solid #26345a; border-radius:12px; padding:12px; background:#121a2c; margin-bottom:10px}
     .p5-choices label{display:block; padding:8px; border:1px solid #2a3c66; border-radius:10px; margin-bottom:6px; cursor:pointer}
-    select{padding:8px; border-radius:8px; border:1px solid #2a3c66; background:#0c1426; color:var(--ink)}
   </style>
 </head>
 <body>
   <header>
-    <h1>倫敦行動檔案｜《倫敦蒙難記》推理解謎（低難度｜手機可用）</h1>
-    <p>五個互動關卡：密碼破譯、路徑重建、證據歸類、羅馬數字開鎖、延續性整合題。<strong>證據歸類關卡支援手機點選放置</strong>。</p>
+    <h1>倫敦行動檔案｜《倫敦蒙難記》推理解謎（低難度｜桌機拖拉／手機填入）</h1>
+    <p>五個互動關卡：密碼破譯、路徑重建、證據歸類、羅馬數字開鎖、延續性整合題。<strong>桌機：拖拉；手機：下拉選單填入</strong>。</p>
   </header>
 
   <div class="wrap">
@@ -137,24 +141,89 @@
       </div>
     </section>
 
-    <!-- Puzzle 3 -->
+    <!-- Puzzle 3: Desktop drag or Mobile dropdown -->
     <section class="card" id="p3">
       <h2>關卡三｜證據歸類：案件推演板</h2>
-      <p class="muted" id="p3Hint">桌面：拖放；<strong>手機：先點選線索，再點選分類框放入</strong>。至少放對 6/7 即過關。</p>
-      <div id="cluesPool" style="display:flex; flex-wrap:wrap">
-        <span class="clue" draggable="true" data-cat="law">外交豁免</span>
-        <span class="clue" draggable="true" data-cat="law">人身自由</span>
-        <span class="clue" draggable="true" data-cat="op">媒體報導</span>
-        <span class="clue" draggable="true" data-cat="op">國際關注</span>
-        <span class="clue" draggable="true" data-cat="act">警方介入</span>
-        <span class="clue" draggable="true" data-cat="act">外交部施壓</span>
-        <span class="clue" draggable="true" data-cat="act">康德黎奔走</span>
+      <p class="muted" id="p3Hint">桌機：拖拉到分類框；手機：以下拉選單為每條線索選擇「法理／輿論／行動」。至少放對 6/7 即過關。</p>
+
+      <!-- Desktop board -->
+      <div id="p3Desktop">
+        <div id="cluesPool" style="display:flex; flex-wrap:wrap">
+          <span class="clue" draggable="true" data-cat="law">外交豁免</span>
+          <span class="clue" draggable="true" data-cat="law">人身自由</span>
+          <span class="clue" draggable="true" data-cat="op">媒體報導</span>
+          <span class="clue" draggable="true" data-cat="op">國際關注</span>
+          <span class="clue" draggable="true" data-cat="act">警方介入</span>
+          <span class="clue" draggable="true" data-cat="act">外交部施壓</span>
+          <span class="clue" draggable="true" data-cat="act">康德黎奔走</span>
+        </div>
+        <div class="board" style="margin-top:10px">
+          <div class="zone" data-zone="law"><h4>法理</h4></div>
+          <div class="zone" data-zone="op"><h4>輿論</h4></div>
+          <div class="zone" data-zone="act"><h4>行動</h4></div>
+        </div>
       </div>
-      <div class="board" style="margin-top:10px">
-        <div class="zone" data-zone="law"><h4>法理</h4></div>
-        <div class="zone" data-zone="op"><h4>輿論</h4></div>
-        <div class="zone" data-zone="act"><h4>行動</h4></div>
+
+      <!-- Mobile form -->
+      <div id="p3Mobile" class="hidden" aria-labelledby="p3Hint">
+        <div class="p3-mobile-row" data-ans="law"><span class="p3-label">外交豁免</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
+        <div class="p3-mobile-row" data-ans="law"><span class="p3-label">人身自由</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
+        <div class="p3-mobile-row" data-ans="op"><span class="p3-label">媒體報導</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
+        <div class="p3-mobile-row" data-ans="op"><span class="p3-label">國際關注</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
+        <div class="p3-mobile-row" data-ans="act"><span class="p3-label">警方介入</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
+        <div class="p3-mobile-row" data-ans="act"><span class="p3-label">外交部施壓</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
+        <div class="p3-mobile-row" data-ans="act"><span class="p3-label">康德黎奔走</span>
+          <select>
+            <option value="">— 選類別 —</option>
+            <option value="law">法理</option>
+            <option value="op">輿論</option>
+            <option value="act">行動</option>
+          </select>
+        </div>
       </div>
+
       <div style="margin-top:10px; display:flex; gap:8px">
         <button class="btn" id="checkP3">檢查</button>
         <button class="btn ghost" id="hintP3">提示</button>
@@ -272,16 +341,8 @@
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const pA = 'PORTLAND PLACE';
     const pB = 'JAMES CANTLIE';
-    function caesarEnc(plain, shift){
-      return plain.toUpperCase().split('').map(ch=>{
-        const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx+shift)%26];
-      }).join('');
-    }
-    function caesarDec(cipher, shift){
-      return cipher.toUpperCase().split('').map(ch=>{
-        const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx-(shift%26)+26)%26];
-      }).join('');
-    }
+    function caesarEnc(plain, shift){ return plain.toUpperCase().split('').map(ch=>{ const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx+shift)%26]; }).join(''); }
+    function caesarDec(cipher, shift){ return cipher.toUpperCase().split('').map(ch=>{ const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx-(shift%26)+26)%26]; }).join(''); }
     const shiftA = Math.floor(Math.random()*25)+1; const shiftB = Math.floor(Math.random()*25)+1;
     const cA = caesarEnc(pA, shiftA); const cB = caesarEnc(pB, shiftB);
     document.getElementById('cipherA').textContent = cA;
@@ -322,38 +383,38 @@
       else { res.textContent='❌ 路徑不對，再檢視資訊流向。'; res.className='warn'; }
     });
 
-    // ---- Puzzle 3: Evidence board (desktop drag + mobile tap-to-place) ----
+    // ---- Puzzle 3: Evidence board (desktop drag OR mobile dropdown) ----
     const pool = document.getElementById('cluesPool');
     const zones = document.querySelectorAll('.zone');
     const clues = [...document.querySelectorAll('.clue')];
-
     const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints>0);
+    const p3Desktop = document.getElementById('p3Desktop');
+    const p3Mobile  = document.getElementById('p3Mobile');
+    p3Desktop.classList.toggle('hidden', isTouch);
+    p3Mobile.classList.toggle('hidden', !isTouch);
+
     if(!isTouch){
-      // 桌面拖放
+      // Desktop drag & drop
       let dragging=null;
       clues.forEach(c=>{ c.addEventListener('dragstart',()=>{ dragging=c; c.classList.add('dragging'); }); c.addEventListener('dragend',()=>{ dragging=null; c.classList.remove('dragging'); }); });
       zones.forEach(z=>{ z.addEventListener('dragover', (e)=>{ e.preventDefault(); }); z.addEventListener('drop', ()=>{ if(dragging) z.appendChild(dragging); }); });
-      pool.addEventListener('dragover', e=> e.preventDefault());
-    } else {
-      // 手機：點選放置
-      document.getElementById('p3Hint').innerHTML = '手機：先點選線索，再點選分類框放入。可再點選線索取消選取。至少放對 6/7 即過關。';
-      clues.forEach(c=> c.setAttribute('draggable','false'));
-      let selected=null;
-      function selectClue(c){
-        if(selected===c){ c.classList.remove('selected'); selected=null; return; }
-        if(selected) selected.classList.remove('selected');
-        selected = c; c.classList.add('selected');
-      }
-      clues.forEach(c=> c.addEventListener('click', ()=> selectClue(c)) );
-      zones.forEach(z=> z.addEventListener('click', ()=>{ if(selected){ z.appendChild(selected); selected.classList.remove('selected'); selected=null; } }) );
-      pool.addEventListener('click', ()=>{ if(selected){ selected.classList.remove('selected'); selected=null; } });
+      pool && pool.addEventListener('dragover', e=> e.preventDefault());
     }
 
     document.getElementById('hintP3').addEventListener('click', ()=>{ alert('提示：法理=外交豁免/人身自由；輿論=媒體/國際；行動=警方/外交部/康德黎。'); });
     document.getElementById('checkP3').addEventListener('click', ()=>{
-      const getCount = type => document.querySelectorAll(`[data-zone="${type}"] .clue[data-cat="${type}"]`).length;
-      const good = getCount('law') + getCount('op') + getCount('act');
       const res = document.getElementById('p3Res');
+      let good = 0;
+      if(!isTouch){
+        // Desktop: count in zones
+        const getCount = type => document.querySelectorAll(`[data-zone="${type}"] .clue[data-cat="${type}"]`).length;
+        good = getCount('law') + getCount('op') + getCount('act');
+      } else {
+        // Mobile: compare selections
+        document.querySelectorAll('#p3Mobile .p3-mobile-row').forEach(row=>{
+          const ans = row.dataset.ans; const sel = row.querySelector('select').value; if(ans && sel && ans===sel) good++;
+        });
+      }
       if(good>=6){ res.textContent=`✅ 歸類完成！正確 ${good}/7。`; res.className='ok'; document.getElementById('p3Explain').classList.remove('hidden'); state.p3=true; updateProgress(); }
       else { res.textContent=`❌ 目前正確 ${good}/7，還差一點。`; res.className='warn'; }
     });
