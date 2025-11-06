@@ -459,15 +459,8 @@
     });
   </script>
 
-  <!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>《倫敦蒙難記》前導說書｜蟲洞序章（自動播放版）</title>
-  <meta name="description" content="沉浸式前導說書：星空與蟲洞動畫＋打字機敘事。玩家穿越回 1896 年倫敦，完成任務以恢復歷史。進頁自動播放。">
-
-  <!-- 基礎樣式（與主站無衝突，命名盡量以 #introOverlay 範圍化） -->
+  
+<!-- 版面基底（不影響你原本題目樣式；命名集中在 #introOverlay 範圍內） -->
   <style>
     :root{
       --ink:#e6efff; --muted:#9db0cf; --panel:#0c1426;
@@ -480,10 +473,7 @@
       background:linear-gradient(180deg, var(--bgA), var(--bgB));
       font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",Segoe UI,Roboto,Arial,sans-serif;
     }
-    a{color:#b9d3ff; text-decoration:none}
-    a:hover{text-decoration:underline}
-
-    /* --- 主內容（占位；實際接到你的題目頁時可以保留原內容） --- */
+    /* 主內容僅示意，正式串接時保留你的題目即可 */
     header{
       padding:28px 18px; text-align:center;
       background:linear-gradient(180deg,#101827,#0f1626);
@@ -499,7 +489,7 @@
     }
 
     /* ===================== [Story Intro Module] ===================== */
-    /* 整個前導覆蓋層 */
+    /* 覆蓋層 */
     #introOverlay{
       position:fixed; inset:0; z-index:9999; display:none;
       background: radial-gradient(1200px 800px at 50% 0%, rgba(12,16,28,0.96), rgba(6,8,16,0.98));
@@ -570,7 +560,6 @@
       .panel{ bottom:4% }
       .wormhole{ top:38%; width:min(64vmin,480px); height:min(64vmin,480px) }
     }
-
     /* 尊重系統減少動態設定 */
     @media (prefers-reduced-motion: reduce){
       .stars, .stars2, .stars3, .wormhole, .wormhole::before, .wormhole::after{ animation:none !important }
@@ -585,11 +574,10 @@
     <h1>倫敦行動檔案｜前導說書（自動播放）</h1>
     <p class="muted">此頁僅測試「說書前導動畫」。你的解謎題目保持原檔不改。</p>
   </header>
-
-  <main class="wrap" id="content">
+  <main class="wrap">
     <section class="card">
       <h2>主內容占位</h2>
-      <p class="muted">串接時，將下方 <strong>Story Intro Module</strong> 區塊直接複製到你的 <code>index.html</code> 的 <code>&lt;/body&gt;</code> 前即可。</p>
+      <p class="muted">串接時，將下方 <strong>Story Intro Module</strong> 整段貼到你的 <code>index.html</code> 的 <code>&lt;/body&gt;</code> 前即可。</p>
     </section>
   </main>
 
@@ -613,18 +601,19 @@
   </div>
 
   <script>
+    // —— 進頁自動播放（不需任何參數）；移除所有重播/略過條件 —— //
     (function(){
       const overlay = document.getElementById('introOverlay');
       const typeBox = document.getElementById('typeBox');
       const skipBtn = document.getElementById('skipIntro');
       const goBtn   = document.getElementById('beginIntro');
 
-      // 進頁自動播放；若網址帶 ?skip=1 則跳過（方便布展測試）
-      const url   = new URL(location.href);
-      const skip  = url.searchParams.get('skip') === '1';
-      if(!skip){ showIntro(); }
+      // 等 DOM 準備好就顯示（避免某些瀏覽器在 <script> 尚未可操作時失敗）
+      document.addEventListener('DOMContentLoaded', () => {
+        showIntro();
+      });
 
-      // 進出控制
+      // 關閉前導
       skipBtn.addEventListener('click', closeIntro);
       goBtn.addEventListener('click', closeIntro);
       document.addEventListener('keydown', (e)=>{
@@ -634,17 +623,14 @@
       });
 
       function showIntro(){
-        // 鎖定背景滾動
-        document.documentElement.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';  // 鎖背景捲動
         overlay.style.display = 'block';
         typeBox.innerHTML = '';
-        runTypewriter().then(()=>{ goBtn.focus(); });
+        runTypewriter().then(()=> goBtn.focus());
       }
-
       function closeIntro(){
         overlay.style.display = 'none';
         document.documentElement.style.overflow = '';
-        // 把焦點送回主內容第一個可互動元件
         const first = document.querySelector('button, [href], input, select, textarea');
         if(first){ first.focus(); }
       }
@@ -673,14 +659,10 @@
         el.innerHTML = '';
         const cursor = document.createElement('span');
         cursor.className = 'cursor';
-        // 若使用者偏好減少動態，直接一次顯示
         const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if(reduce){
-          el.textContent = text;
-          return;
-        }
-        for(let i=0; i<text.length; i++){
-          el.textContent = text.slice(0, i+1);
+        if(reduce){ el.textContent = text; return; }
+        for(let i=0;i<text.length;i++){
+          el.textContent = text.slice(0,i+1);
           el.appendChild(cursor);
           await wait(22 + Math.random()*28);
         }
@@ -691,8 +673,6 @@
   </script>
   <!-- =================== [End Story Intro Module] =================== -->
 
-</body>
-</html>
-  
+ 
 </body>
 </html>
