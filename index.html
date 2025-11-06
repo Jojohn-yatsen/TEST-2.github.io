@@ -458,5 +458,261 @@
       state.p5=false; updateProgress();
     });
   </script>
+  <!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《倫敦蒙難記》前導說書測試｜蟲洞序章</title>
+  <meta name="description" content="沉浸式前導說書：星空與蟲洞動畫＋打字機敘事。玩家穿越回 1896 年倫敦，完成任務以恢復歷史。支援略過與強制重播。">
+
+  <!-- 基礎樣式（與你的主站無衝突，命名盡量以 #introOverlay 範圍化） -->
+  <style>
+    :root{
+      --ink:#e6efff; --muted:#9db0cf; --panel:#0c1426;
+      --stroke:#2a3c66; --accent:#ffb84d; --accent2:#70d6ff;
+      --bgA:#0c101c; --bgB:#070a12;
+    }
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--ink);
+      background:linear-gradient(180deg, var(--bgA), var(--bgB));
+      font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",Segoe UI,Roboto,Arial,sans-serif;
+    }
+    a{color:#b9d3ff; text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* --- 主內容（占位區塊：不會動到你的題目，僅供測試） --- */
+    header{
+      padding:28px 18px; text-align:center;
+      background:linear-gradient(180deg,#101827,#0f1626);
+      border-bottom:1px solid #1f2c48;
+    }
+    header h1{ margin:0 0 6px; font-size:1.8rem; letter-spacing:1px }
+    header p{ margin:0; color:var(--muted) }
+    .wrap{ max-width:1100px; margin:20px auto; padding:0 16px }
+    .card{
+      background:linear-gradient(180deg, #131c2e, #0f1727);
+      border:1px solid #1f2c48; border-radius:14px; padding:16px;
+      box-shadow:0 8px 26px rgba(0,0,0,.3);
+    }
+    .btn{
+      appearance:none; border:1px solid #274064;
+      background:linear-gradient(180deg,#1d2d4a,#16233b);
+      color:#eaf2ff; border-radius:10px; padding:10px 14px;
+      cursor:pointer; font-weight:700
+    }
+    .btn:hover{ filter:brightness(1.06) }
+    .muted{ color:var(--muted) }
+
+    /* ===================== [Story Intro Module] ===================== */
+    /* 整個前導覆蓋層 */
+    #introOverlay{
+      position:fixed; inset:0; z-index:9999; display:none;
+      background: radial-gradient(1200px 800px at 50% 0%, rgba(12,16,28,0.96), rgba(6,8,16,0.98));
+      color:var(--ink);
+    }
+    #introOverlay .scene{ position:relative; width:100%; height:100% }
+
+    /* 星空（多層視差） */
+    .stars, .stars2, .stars3{
+      position:absolute; inset:0; background-repeat:repeat;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.8), transparent 60%),
+        radial-gradient(1.5px 1.5px at 150px 120px, rgba(255,255,255,.6), transparent 60%),
+        radial-gradient(1.5px 1.5px at 300px 80px, rgba(255,255,255,.7), transparent 60%),
+        radial-gradient(2px 2px at 500px 200px, rgba(255,255,255,.9), transparent 60%);
+      animation: drift 80s linear infinite; opacity:.36; pointer-events:none;
+    }
+    .stars2{ filter:blur(.6px); opacity:.25; animation-duration:120s }
+    .stars3{ filter:blur(1.1px); opacity:.18; animation-duration:160s }
+    @keyframes drift{ from{background-position:0 0} to{background-position:-800px 600px} }
+
+    /* 蟲洞（多層旋轉＋光暈） */
+    .wormhole{
+      position:absolute; left:50%; top:45%; transform:translate(-50%,-50%);
+      width:min(70vmin,560px); height:min(70vmin,560px); border-radius:50%;
+      background:
+        radial-gradient(closest-side, rgba(112,214,255,.30), transparent 70%),
+        conic-gradient(from 0deg, rgba(112,214,255,.18), rgba(255,184,77,.12), rgba(112,214,255,.18));
+      box-shadow:0 0 40px rgba(112,214,255,.35), inset 0 0 60px rgba(255,184,77,.25);
+      animation: spin 12s linear infinite;
+    }
+    .wormhole::before,.wormhole::after{
+      content:""; position:absolute; inset:6%; border-radius:50%;
+      background: conic-gradient(from 180deg, rgba(112,214,255,.4), transparent 60%, rgba(255,184,77,.35));
+      filter: blur(3px); animation: spinReverse 18s linear infinite;
+    }
+    .wormhole::after{ inset:12%; filter:blur(6px); animation-duration:26s }
+    @keyframes spin{ to{ transform:translate(-50%,-50%) rotate(360deg) } }
+    @keyframes spinReverse{ to{ transform: rotate(-360deg) } }
+
+    /* 敘事面板（打字機） */
+    .panel{
+      position:absolute; left:50%; bottom:8%; transform:translateX(-50%);
+      width:min(820px, 92vw);
+      background:linear-gradient(180deg, #121A2C, #0C1426);
+      border:1px solid var(--stroke); border-radius:16px;
+      box-shadow:0 10px 40px rgba(0,0,0,.45); padding:16px 18px;
+    }
+    .panel h2{ margin:0 0 6px; font-size:1.4rem; letter-spacing:1px }
+    .panel .sub{ margin:0 0 10px; color:var(--muted); font-size:.95rem }
+    #typeBox{ min-height:96px; line-height:1.75 }
+    .typeLine{ opacity:0 }
+    .typeLine.show{ opacity:1; transition:opacity .25s ease }
+    .cursor{ display:inline-block; width:10px; margin-left:2px; border-left:2px solid var(--accent); animation:blink .9s step-end infinite }
+    @keyframes blink{ 50%{ border-color:transparent } }
+
+    .btnRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px }
+    .btn.primary{ background:linear-gradient(180deg,#2a3c66,#1b2a4d); border-color:#33528a }
+
+    /* 小螢幕調整 */
+    @media (max-width:520px){
+      .panel{ bottom:4% }
+      .wormhole{ top:38%; width:min(64vmin,480px); height:min(64vmin,480px) }
+    }
+
+    /* 盡量尊重系統減少動態設定 */
+    @media (prefers-reduced-motion: reduce){
+      .stars, .stars2, .stars3, .wormhole, .wormhole::before, .wormhole::after{ animation:none !important }
+    }
+    /* =================== [End Story Intro Module] =================== */
+  </style>
+</head>
+<body>
+
+  <!-- 主內容（僅為測試占位；你的題目頁可保留原狀） -->
+  <header>
+    <h1>倫敦行動檔案｜前導說書測試頁</h1>
+    <p class="muted">此頁僅測試「說書前導動畫」。你的解謎題目可維持原檔不變。</p>
+  </header>
+
+  <main class="wrap" id="content">
+    <section class="card">
+      <h2>主內容占位</h2>
+      <p class="muted">在正式串接時，保留你的原有題目與互動；只需把本頁 <strong>Story Intro Module</strong> 區塊複製到你自己的 <code>index.html</code> 之 <code>&lt;/body&gt;</code> 前即可。</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px">
+        <button id="replayIntro" class="btn">重播前導（測試用）</button>
+        ?intro=1以網址參數強制重播</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== [Story Intro Module] ===================== -->
+  <div id="introOverlay" role="dialog" aria-label="前導敘事" aria-modal="true">
+    <div class="scene" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="stars2"></div>
+      <div class="stars3"></div>
+      <div class="wormhole" aria-hidden="true"></div>
+    </div>
+    <div class="panel" role="document">
+      <h2>時空綻裂：檔案 1896</h2>
+      <p class="sub">前導說書｜請跟著敘事進入任務現場</p>
+      <div id="typeBox" aria-live="polite" aria-atomic="true"></div>
+      <div class="btnRow">
+        <button id="skipIntro" class="btn" aria-label="略過前導">略過</button>
+        <button id="beginIntro" class="btn primary" aria-label="立即出發">立即出發</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const overlay = document.getElementById('introOverlay');
+      const typeBox = document.getElementById('typeBox');
+      const skipBtn = document.getElementById('skipIntro');
+      const goBtn   = document.getElementById('beginIntro');
+      const replay  = document.getElementById('replayIntro');
+
+      // 展播控制：?intro=1 強制播放；預設同一分頁僅播放一次
+      const url = new URL(location.href);
+      const force = url.searchParams.get('intro') === '1';
+      const seen  = sessionStorage.getItem('introSeen') === '1';
+      const shouldPlay = force || !seen;
+
+      if (shouldPlay) {
+        showIntro();
+      }
+
+      // 測試用重播按鈕
+      replay?.addEventListener('click', () => {
+        sessionStorage.removeItem('introSeen');
+        showIntro(true);
+      });
+
+      // 進出控制
+      skipBtn.addEventListener('click', closeIntro);
+      goBtn.addEventListener('click', closeIntro);
+      document.addEventListener('keydown', (e)=>{
+        if(overlay.style.display==='block' && (e.key === 'Enter' || e.key === 'Escape')){
+          closeIntro();
+        }
+      });
+
+      function showIntro(isReplay=false){
+        // 鎖定背景滾動
+        document.documentElement.style.overflow = 'hidden';
+        overlay.style.display = 'block';
+        typeBox.innerHTML = '';
+        runTypewriter().then(()=>{
+          // 打字完成後把焦點放在主行動鍵
+          goBtn.focus();
+          if(!isReplay){ sessionStorage.setItem('introSeen','1'); }
+        });
+      }
+
+      function closeIntro(){
+        overlay.style.display = 'none';
+        document.documentElement.style.overflow = '';
+        // 把焦點送回主內容第一個可互動元件
+        const first = document.querySelector('button, [href], input, select, textarea');
+        if(first){ first.focus(); }
+      }
+
+      // 敘事台詞（可自由替換）
+      const lines = [
+        "某個夜晚，歷史的時間線出現了裂縫。",
+        "你從檔案館值守室跌入蟲洞，穿越到 1896 年的倫敦。",
+        "有人正在抹除一段關鍵的救援記錄——史料主角的命運岌岌可危。",
+        "要恢復正確的時間線，你必須完成四項任務：破譯、路徑、歸類、解鎖。",
+        "準備好了嗎？按下「立即出發」，回到現場。"
+      ];
+
+      async function runTypewriter(){
+        for(const text of lines){
+          const p = document.createElement('p');
+          p.className = 'typeLine';
+          typeBox.appendChild(p);
+          await typeLine(p, text);
+          await wait(420);
+        }
+      }
+      function wait(ms){ return new Promise(r=>setTimeout(r, ms)); }
+      async function typeLine(el, text){
+        el.classList.add('show');
+        el.innerHTML = '';
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor';
+        // 若使用者偏好減少動態，直接一次顯示
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if(reduce){
+          el.textContent = text;
+          return;
+        }
+        for(let i=0; i<text.length; i++){
+          el.textContent = text.slice(0, i+1);
+          el.appendChild(cursor);
+          await wait(22 + Math.random()*28);
+        }
+        await wait(260);
+        cursor.remove();
+      }
+    })();
+  </script>
+  <!-- =================== [End Story Intro Module] =================== -->
+
+</body>
+
 </body>
 </html>
