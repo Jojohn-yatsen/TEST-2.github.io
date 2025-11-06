@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>《倫敦蒙難記》推理解謎｜簡化版（低難度）</title>
-<meta name="description" content="以孫中山倫敦蒙難事件為主題的低難度推理解謎小遊戲。包含密碼破譯、路徑重建、證據歸類、羅馬數字開鎖，以及整合延續性測驗。" />
-<style>
-  :root{ --bg:#0e1320; --panel:#101827; --ink:#e6efff; --muted:#9db0cf; --accent:#ffb84d; --accent2:#70d6ff; --ok:#1ad1a5; --warn:#ff6b6b; }
-  *{box-sizing:border-box}
-  body{margin:0; color:var(--ink); background:linear-gradient(180deg,#0a0f1a,#0e1320); font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-  header{padding:28px 18px; text-align:center; background:linear-gradient(180deg,#101827,#0f1626); border-bottom:1px solid #1f2c48}
-  header h1{margin:0 0 6px; font-size:1.8rem; letter-spacing:1px}
-  header p{margin:0; color:var(--muted)}
-  .wrap{max-width:1100px; margin:20px auto; padding:0 16px}
-  .hud{display:grid; gap:10px; grid-template-columns: 1fr auto; align-items:center; background:var(--panel); border:1px solid #1f2c48; padding:12px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.25)}
-  .progress{height:10px; background:#1b2743; border-radius:99px; overflow:hidden}
-  .progress>div{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #ffd27a); transition:width 400ms ease}
-  .badges{display:flex; gap:8px; flex-wrap:wrap}
-  .badge{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid #26345a; border-radius:999px; background:rgba(255,255,255,.03); color:var(--muted); font-size:12px}
-  .badge.ok{color:var(--ok); border-color:#235f54; background:rgba(26,209,165,.06)}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>《倫敦蒙難記》推理解謎｜簡化版（行動裝置優化）</title>
+  <meta name="description" content="以孫中山倫敦蒙難事件為主題的低難度推理解謎小遊戲。手機可用：證據歸類關卡改為點選放置（tap-to-place），同時保留桌面拖放。" />
+  <style>
+    :root{ --bg:#0e1320; --panel:#101827; --ink:#e6efff; --muted:#9db0cf; --accent:#ffb84d; --accent2:#70d6ff; --ok:#1ad1a5; --warn:#ff6b6b; }
+    *{box-sizing:border-box}
+    body{margin:0; color:var(--ink); background:linear-gradient(180deg,#0a0f1a,#0e1320); font-family:system-ui,-apple-system,"Noto Sans TC","Microsoft JhengHei",Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{padding:28px 18px; text-align:center; background:linear-gradient(180deg,#101827,#0f1626); border-bottom:1px solid #1f2c48}
+    header h1{margin:0 0 6px; font-size:1.8rem; letter-spacing:1px}
+    header p{margin:0; color:var(--muted)}
+    .wrap{max-width:1100px; margin:20px auto; padding:0 16px}
+    .hud{display:grid; gap:10px; grid-template-columns: 1fr auto; align-items:center; background:var(--panel); border:1px solid #1f2c48; padding:12px; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,.25)}
+    .progress{height:10px; background:#1b2743; border-radius:99px; overflow:hidden}
+    .progress>div{height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #ffd27a); transition:width 400ms ease}
+    .badges{display:flex; gap:8px; flex-wrap:wrap}
+    .badge{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid #26345a; border-radius:999px; background:rgba(255,255,255,.03); color:var(--muted); font-size:12px}
+    .badge.ok{color:var(--ok); border-color:#235f54; background:rgba(26,209,165,.06)}
 
-  .grid{display:grid; gap:14px}
-  @media(min-width:860px){ .grid-2{grid-template-columns:1fr 1fr} }
+    .grid{display:grid; gap:14px}
+    @media(min-width:860px){ .grid-2{grid-template-columns:1fr 1fr} }
 
-  .card{background:linear-gradient(180deg, #131c2e, #0f1727); border:1px solid #1f2c48; border-radius:14px; padding:14px; box-shadow:0 8px 26px rgba(0,0,0,.3)}
-  h2{font-size:1.25rem; margin:4px 0 8px}
-  h3{font-size:1.05rem; margin:6px 0}
-  p.muted,.muted{color:var(--muted)}
-  .btn{appearance:none; border:1px solid #274064; background:linear-gradient(180deg,#1d2d4a,#16233b); color:#eaf2ff; border-radius:10px; padding:10px 14px; cursor:pointer; font-weight:700}
-  .btn:hover{filter:brightness(1.06)}
-  .btn.ghost{background:transparent}
-  .ok{color:var(--ok)}
-  .warn{color:var(--warn)}
-  .hidden{display:none !important}
+    .card{background:linear-gradient(180deg, #131c2e, #0f1727); border:1px solid #1f2c48; border-radius:14px; padding:14px; box-shadow:0 8px 26px rgba(0,0,0,.3)}
+    h2{font-size:1.25rem; margin:4px 0 8px}
+    h3{font-size:1.05rem; margin:6px 0}
+    p.muted,.muted{color:var(--muted)}
+    .btn{appearance:none; border:1px solid #274064; background:linear-gradient(180deg,#1d2d4a,#16233b); color:#eaf2ff; border-radius:10px; padding:10px 14px; cursor:pointer; font-weight:700}
+    .btn:hover{filter:brightness(1.06)}
+    .btn.ghost{background:transparent}
+    .ok{color:var(--ok)}
+    .warn{color:var(--warn)}
+    .hidden{display:none !important}
 
-  .cipherPanel{border:1px dashed #2b3a64; border-radius:12px; padding:12px; background:#0e1425}
-  .cipherText{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; letter-spacing:2px; background:#0a1020; border:1px solid #1c2848; padding:10px; border-radius:8px}
-  .slider{width:100%}
+    .cipherPanel{border:1px dashed #2b3a64; border-radius:12px; padding:12px; background:#0e1425}
+    .cipherText{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; letter-spacing:2px; background:#0a1020; border:1px solid #1c2848; padding:10px; border-radius:8px}
+    .slider{width:100%}
 
-  .map{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
-  .place{padding:12px; border:1px solid #25375e; border-radius:10px; background:linear-gradient(180deg,#121b2d,#0d1425); cursor:pointer}
-  .place.selected{outline:2px solid var(--accent2)}
-  .path{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
-  .crumb{padding:4px 8px; background:#13203a; border:1px solid #26426f; border-radius:999px; font-size:12px}
+    .map{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+    .place{padding:12px; border:1px solid #25375e; border-radius:10px; background:linear-gradient(180deg,#121b2d,#0d1425); cursor:pointer}
+    .place.selected{outline:2px solid var(--accent2)}
+    .path{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
+    .crumb{padding:4px 8px; background:#13203a; border:1px solid #26426f; border-radius:999px; font-size:12px}
 
-  .board{display:grid; gap:10px; grid-template-columns:1fr 1fr 1fr}
-  .zone{min-height:120px; border:1px dashed #2b3a64; border-radius:12px; padding:8px; background:#0c1426}
-  .zone h4{margin:0 0 6px; color:#9cc0ff}
-  .clue{display:inline-block; margin:6px; padding:6px 10px; border:1px solid #2a3b60; background:#17233a; border-radius:999px; cursor:grab; font-size:13px}
+    .board{display:grid; gap:10px; grid-template-columns:1fr 1fr 1fr}
+    .zone{min-height:120px; border:1px dashed #2b3a64; border-radius:12px; padding:8px; background:#0c1426}
+    .zone h4{margin:0 0 6px; color:#9cc0ff}
+    .clue{display:inline-block; margin:6px; padding:6px 10px; border:1px solid #2a3b60; background:#17233a; border-radius:999px; cursor:grab; font-size:13px}
+    .clue.selected{outline:2px solid var(--accent2); box-shadow:0 0 0 2px rgba(112,214,255,.25) inset}
 
-  .hint{color:#d6d2a3; background:linear-gradient(180deg,#2b2815,#1e1b0f); border:1px solid #5d4c1a; padding:8px; border-radius:10px}
+    .hint{color:#d6d2a3; background:linear-gradient(180deg,#2b2815,#1e1b0f); border:1px solid #5d4c1a; padding:8px; border-radius:10px}
 
-  .lock{display:grid; grid-template-columns:repeat(4,60px); gap:8px; justify-content:center; margin:10px 0}
-  .dial{display:flex; align-items:center; justify-content:center; height:60px; border-radius:10px; background:#101827; border:1px solid #2a3c66; font-size:22px; user-select:none}
-  .dial button{all:unset; display:block; width:100%; height:100%; color:#ffd27a; text-align:center; font-weight:700; cursor:pointer}
+    .lock{display:grid; grid-template-columns:repeat(4,60px); gap:8px; justify-content:center; margin:10px 0}
+    .dial{display:flex; align-items:center; justify-content:center; height:60px; border-radius:10px; background:#101827; border:1px solid #2a3c66; font-size:22px; user-select:none}
+    .dial button{all:unset; display:block; width:100%; height:100%; color:#ffd27a; text-align:center; font-weight:700; cursor:pointer}
 
-  /* Puzzle 5 visuals */
-  .p5-block{border:1px solid #26345a; border-radius:12px; padding:12px; background:#121a2c; margin-bottom:10px}
-  .p5-choices label{display:block; padding:8px; border:1px solid #2a3c66; border-radius:10px; margin-bottom:6px; cursor:pointer}
-  select{padding:8px; border-radius:8px; border:1px solid #2a3c66; background:#0c1426; color:var(--ink)}
-
-</style>
+    .p5-block{border:1px solid #26345a; border-radius:12px; padding:12px; background:#121a2c; margin-bottom:10px}
+    .p5-choices label{display:block; padding:8px; border:1px solid #2a3c66; border-radius:10px; margin-bottom:6px; cursor:pointer}
+    select{padding:8px; border-radius:8px; border:1px solid #2a3c66; background:#0c1426; color:var(--ink)}
+  </style>
 </head>
 <body>
   <header>
-    <h1>倫敦行動檔案｜《倫敦蒙難記》推理解謎（低難度）</h1>
-    <p>透過五個互動關卡，拼出 1896 年倫敦事件的脈絡、關鍵人物、法理要點與行動影響。</p>
+    <h1>倫敦行動檔案｜《倫敦蒙難記》推理解謎（低難度｜手機可用）</h1>
+    <p>五個互動關卡：密碼破譯、路徑重建、證據歸類、羅馬數字開鎖、延續性整合題。<strong>證據歸類關卡支援手機點選放置</strong>。</p>
   </header>
 
   <div class="wrap">
@@ -85,7 +84,7 @@
       </div>
     </div>
 
-    <!-- Puzzle 1: Caesar cipher -->
+    <!-- Puzzle 1 -->
     <section class="card" id="p1">
       <h2>關卡一｜密碼破譯：截獲的紙條</h2>
       <p class="muted">使用位移滑桿嘗試破譯兩段文字，解出地點與人物。</p>
@@ -114,7 +113,7 @@
       </div>
     </section>
 
-    <!-- Puzzle 2: Map order -->
+    <!-- Puzzle 2 -->
     <section class="card" id="p2">
       <h2>關卡二｜路徑重建：倫敦地圖板</h2>
       <p class="muted">依事件推進順序點選地點，形成路徑（5 步）。</p>
@@ -138,11 +137,11 @@
       </div>
     </section>
 
-    <!-- Puzzle 3: Evidence board -->
+    <!-- Puzzle 3 -->
     <section class="card" id="p3">
       <h2>關卡三｜證據歸類：案件推演板</h2>
-      <p class="muted">將線索拖入正確類別（法理／輿論／行動）。至少放對 6/7 即可過關。</p>
-      <div style="display:flex; flex-wrap:wrap">
+      <p class="muted" id="p3Hint">桌面：拖放；<strong>手機：先點選線索，再點選分類框放入</strong>。至少放對 6/7 即過關。</p>
+      <div id="cluesPool" style="display:flex; flex-wrap:wrap">
         <span class="clue" draggable="true" data-cat="law">外交豁免</span>
         <span class="clue" draggable="true" data-cat="law">人身自由</span>
         <span class="clue" draggable="true" data-cat="op">媒體報導</span>
@@ -167,7 +166,7 @@
       </div>
     </section>
 
-    <!-- Puzzle 4: Safe lock (Roman numerals hint) -->
+    <!-- Puzzle 4 -->
     <section class="card" id="p4">
       <h2>關卡四｜開鎖行動：使館密櫃</h2>
       <p class="muted">開啟黑光檢視字跡，將羅馬數字轉為年份後開鎖。</p>
@@ -196,12 +195,11 @@
       </div>
     </section>
 
-    <!-- Puzzle 5: Integrative continuity quiz -->
+    <!-- Puzzle 5 -->
     <section class="card" id="p5">
       <h2>關卡五｜延續性整合題</h2>
       <p class="muted">根據前四關的資訊，完成下列三部分測驗（不需輸入姓名）。</p>
 
-      <!-- Part A: multi-select actors -->
       <div class="p5-block">
         <h3>（A）哪些力量直接促成孫中山獲釋？（可複選）</h3>
         <div class="p5-choices">
@@ -214,7 +212,6 @@
         </div>
       </div>
 
-      <!-- Part B: sequence dropdowns -->
       <div class="p5-block">
         <h3>（B）在「媒體關注」之後，合理的下一步是？</h3>
         <select id="p5Next1">
@@ -232,7 +229,6 @@
         </select>
       </div>
 
-      <!-- Part D: law principle MCQ -->
       <div class="p5-block">
         <h3>（D）法理互動的理解（單選）</h3>
         <div class="p5-choices">
@@ -252,146 +248,154 @@
         <ul class="muted">
           <li><strong>直接推力：</strong>康德黎的奔走與英媒報導匯聚社會壓力；警方與外交部以制度與權責介入，形成多方合力。</li>
           <li><strong>序列：</strong>媒體關注之後通常是警方介入，再由外交部施壓於使館端。</li>
-          <li><strong>法理：</strong>外交豁免並非無邊界；在英國法與社會常識中，人身自由仍是核心價值，故引發公開辯論與政府行動。</li>
+          <li><strong>法理：</strong>外交豁免並非無邊界；在人身自由為核心價值的脈絡下，引發公開辯論與政府行動。</li>
         </ul>
       </div>
     </section>
   </div>
 
-  <footer style="text-align:center; color:var(--muted); padding:24px">© 2025 推理解謎教育頁（單檔、無外掛）。歷史資訊採常見史料概述；策展使用請搭配正式文獻。</footer>
+  <footer style="text-align:center; color:var(--muted); padding:24px">© 2025 推理解謎教育頁（單檔、無外掛）。</footer>
 
-<script>
-  // ---- HUD / Progress ----
-  const state = {p1:false,p2:false,p3:false,p4:false,p5:false};
-  const pg = document.getElementById('pg');
-  const pgTxt = document.getElementById('pgTxt');
-  const badges = [ 'b1','b2','b3','b4','b5' ].map(id=>document.getElementById(id));
-  function updateProgress(){
-    const done = Object.values(state).filter(Boolean).length; const pct = Math.round(done/5*100);
-    pg.style.width = pct+'%'; pgTxt.textContent = `${done}/5 關卡完成`;
-    badges.forEach((b, i)=>{ b.classList.toggle('ok', Object.values(state)[i]); });
-  }
-
-  // ---- Puzzle 1: Caesar cipher ----
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const pA = 'PORTLAND PLACE';
-  const pB = 'JAMES CANTLIE';
-  function caesarEnc(plain, shift){
-    return plain.toUpperCase().split('').map(ch=>{
-      const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx+shift)%26];
-    }).join('');
-  }
-  function caesarDec(cipher, shift){
-    return cipher.toUpperCase().split('').map(ch=>{
-      const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx-(shift%26)+26)%26];
-    }).join('');
-  }
-  const shiftA = Math.floor(Math.random()*25)+1; const shiftB = Math.floor(Math.random()*25)+1;
-  const cA = caesarEnc(pA, shiftA); const cB = caesarEnc(pB, shiftB);
-  document.getElementById('cipherA').textContent = cA;
-  document.getElementById('cipherB').textContent = cB;
-  const sA = document.getElementById('shiftA');
-  const sB = document.getElementById('shiftB');
-  const plainA = document.getElementById('plainA');
-  const plainB = document.getElementById('plainB');
-  function renderPlain(){ plainA.textContent = caesarDec(cA, parseInt(sA.value,10)); plainB.textContent = caesarDec(cB, parseInt(sB.value,10)); }
-  sA.addEventListener('input', renderPlain); sB.addEventListener('input', renderPlain); renderPlain();
-  document.getElementById('hintP1').addEventListener('click', ()=>{ alert('提示：地點為兩字（P 開頭），人物是早年恩師（J 開頭）。'); });
-  document.getElementById('checkP1').addEventListener('click', ()=>{
-    const ok = (plainA.textContent.trim()===pA && plainB.textContent.trim()===pB);
-    const res = document.getElementById('p1Res'); const exp = document.getElementById('p1Explain');
-    if(ok){ res.textContent='✅ 破譯成功！'; res.className='ok'; exp.classList.remove('hidden'); state.p1=true; updateProgress(); }
-    else { res.textContent='❌ 尚未正確，再調整位移。'; res.className='warn'; }
-  });
-
-  // ---- Puzzle 2: Map order ----
-  const correctPath = ['A','B','C','D','E']; const sel = [];
-  document.querySelectorAll('.place').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      if(sel.length>=5) return; const k = el.dataset.k; sel.push(k); el.classList.add('selected');
-      const node = document.createElement('span'); node.className='crumb'; node.textContent = el.textContent;
-      document.getElementById('path').appendChild(node);
-    });
-  });
-  document.getElementById('undoPath').addEventListener('click', ()=>{
-    if(sel.length===0) return; const last = sel.pop();
-    const cards = [...document.querySelectorAll('.place')]; cards.find(c=>c.dataset.k===last).classList.remove('selected');
-    const crumbs = document.getElementById('path'); crumbs.removeChild(crumbs.lastElementChild);
-  });
-  document.getElementById('hintP2').addEventListener('click', ()=>{ alert('提示：使館→醫師→媒體→警方→外交部。'); });
-  document.getElementById('checkP2').addEventListener('click', ()=>{
-    const res = document.getElementById('p2Res'); if(sel.length!==5){ res.textContent='請先選滿 5 個地點。'; res.className='warn'; return; }
-    const ok = sel.every((v,i)=> v===correctPath[i]);
-    if(ok){ res.textContent='✅ 路徑正確！'; res.className='ok'; document.getElementById('p2Explain').classList.remove('hidden'); state.p2=true; updateProgress(); }
-    else { res.textContent='❌ 路徑不對，再檢視資訊流向。'; res.className='warn'; }
-  });
-
-  // ---- Puzzle 3: Evidence board ----
-  const clues = [...document.querySelectorAll('.clue')]; let dragging=null;
-  clues.forEach(c=>{ c.addEventListener('dragstart',()=>{ dragging=c; c.classList.add('dragging'); }); c.addEventListener('dragend',()=>{ dragging=null; c.classList.remove('dragging'); }); });
-  document.querySelectorAll('.zone').forEach(z=>{
-    z.addEventListener('dragover', (e)=>{ e.preventDefault(); });
-    z.addEventListener('drop', ()=>{ if(dragging) z.appendChild(dragging); });
-  });
-  document.getElementById('hintP3').addEventListener('click', ()=>{ alert('提示：法理=外交豁免/人身自由；輿論=媒體/國際；行動=警方/外交部/康德黎。'); });
-  document.getElementById('checkP3').addEventListener('click', ()=>{
-    const zones = { law:document.querySelector('[data-zone="law"]'), op:document.querySelector('[data-zone="op"]'), act:document.querySelector('[data-zone="act"]') };
-    const countCorrect = type=>[...zones[type].querySelectorAll('.clue')].filter(c=> c.dataset.cat===type).length;
-    const good = countCorrect('law') + countCorrect('op') + countCorrect('act');
-    const res = document.getElementById('p3Res');
-    if(good>=6){ res.textContent=`✅ 歸類完成！正確 ${good}/7。`; res.className='ok'; document.getElementById('p3Explain').classList.remove('hidden'); state.p3=true; updateProgress(); }
-    else { res.textContent=`❌ 目前正確 ${good}/7，還差一點。`; res.className='warn'; }
-  });
-
-  // ---- Puzzle 4: Safe lock ----
-  const dialsY = [...document.querySelectorAll('#lockYear .dial button')]; const digitsY = [0,0,0,0];
-  dialsY.forEach(btn=>{ btn.addEventListener('click', ()=>{ const idx = parseInt(btn.dataset.idx,10); digitsY[idx] = (digitsY[idx]+1)%10; btn.textContent = digitsY[idx]; }); });
-  document.getElementById('uvToggle').addEventListener('change', (e)=>{
-    const on = e.target.checked; document.getElementById('uvMsg').textContent = on ? '黑光開啟：隱藏墨跡可見。' : '黑光關閉中';
-    document.querySelectorAll('.uv').forEach(el=> el.classList.toggle('hidden', !on)); document.querySelectorAll('.uvOff').forEach(el=> el.classList.toggle('hidden', on));
-  });
-  document.getElementById('hintP4').addEventListener('click', ()=>{ alert('提示：將羅馬數字轉成阿拉伯數字。'); });
-  document.getElementById('checkP4').addEventListener('click', ()=>{
-    const res = document.getElementById('p4Res'); const okYear = (digitsY.join('')==='1896');
-    if(okYear){ res.textContent='✅ 已解鎖！'; res.className='ok'; document.getElementById('p4Explain').classList.remove('hidden'); state.p4=true; updateProgress(); }
-    else { res.textContent='❌ 組合不對，打開黑光再找線索。'; res.className='warn'; }
-  });
-
-  // ---- Puzzle 5: Integrative quiz ----
-  function getChecked(name){ return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value); }
-  document.getElementById('checkP5').addEventListener('click', ()=>{
-    // A: actors
-    const a = getChecked('actors');
-    const aOK = ['cantlie','media','yard','fo'];
-    const aCorrect = a.length===aOK.length && a.every(v=> aOK.includes(v));
-
-    // B & C: sequence
-    const n1 = document.getElementById('p5Next1').value; // after media -> police
-    const n2 = document.getElementById('p5Next2').value; // after police -> FO
-    const seqOK = (n1==='police' && n2==='fo');
-
-    // D: law
-    const law = (document.querySelector('input[name="law"]:checked')||{}).value;
-    const lawOK = (law==='correct');
-
-    const res = document.getElementById('p5Res'); const exp = document.getElementById('p5Explain');
-    const allOK = aCorrect && seqOK && lawOK;
-    if(allOK){ res.textContent='✅ 全部正確！你已完成整合題。'; res.className='ok'; exp.classList.remove('hidden'); state.p5=true; updateProgress(); }
-    else {
-      let msg = '❌ 尚未全對：';
-      if(!aCorrect) msg += '（A）再檢視哪些力量屬於直接推力；';
-      if(!seqOK) msg += '（B）（C）路徑順序再想想；';
-      if(!lawOK) msg += '（D）法理互動需注意外交豁免與人身自由的界線。';
-      res.textContent = msg; res.className='warn';
+  <script>
+    // ---- HUD / Progress ----
+    const state = {p1:false,p2:false,p3:false,p4:false,p5:false};
+    const pg = document.getElementById('pg');
+    const pgTxt = document.getElementById('pgTxt');
+    const badges = [ 'b1','b2','b3','b4','b5' ].map(id=>document.getElementById(id));
+    function updateProgress(){
+      const done = Object.values(state).filter(Boolean).length; const pct = Math.round(done/5*100);
+      pg.style.width = pct+'%'; pgTxt.textContent = `${done}/5 關卡完成`;
+      badges.forEach((b, i)=>{ b.classList.toggle('ok', Object.values(state)[i]); });
     }
-  });
-  document.getElementById('resetP5').addEventListener('click', ()=>{
-    document.querySelectorAll('input[name="actors"]').forEach(i=> i.checked=false);
-    document.getElementById('p5Next1').value=''; document.getElementById('p5Next2').value='';
-    const selLaw = document.querySelector('input[name="law"]:checked'); if(selLaw) selLaw.checked=false;
-    document.getElementById('p5Res').textContent=''; document.getElementById('p5Explain').classList.add('hidden');
-    state.p5=false; updateProgress();
-  });
-</script>
+
+    // ---- Puzzle 1: Caesar cipher ----
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const pA = 'PORTLAND PLACE';
+    const pB = 'JAMES CANTLIE';
+    function caesarEnc(plain, shift){
+      return plain.toUpperCase().split('').map(ch=>{
+        const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx+shift)%26];
+      }).join('');
+    }
+    function caesarDec(cipher, shift){
+      return cipher.toUpperCase().split('').map(ch=>{
+        const idx = alphabet.indexOf(ch); if(idx<0) return ch; return alphabet[(idx-(shift%26)+26)%26];
+      }).join('');
+    }
+    const shiftA = Math.floor(Math.random()*25)+1; const shiftB = Math.floor(Math.random()*25)+1;
+    const cA = caesarEnc(pA, shiftA); const cB = caesarEnc(pB, shiftB);
+    document.getElementById('cipherA').textContent = cA;
+    document.getElementById('cipherB').textContent = cB;
+    const sA = document.getElementById('shiftA');
+    const sB = document.getElementById('shiftB');
+    const plainA = document.getElementById('plainA');
+    const plainB = document.getElementById('plainB');
+    function renderPlain(){ plainA.textContent = caesarDec(cA, parseInt(sA.value,10)); plainB.textContent = caesarDec(cB, parseInt(sB.value,10)); }
+    sA.addEventListener('input', renderPlain); sB.addEventListener('input', renderPlain); renderPlain();
+    document.getElementById('hintP1').addEventListener('click', ()=>{ alert('提示：地點為兩字（P 開頭），人物是早年恩師（J 開頭）。'); });
+    document.getElementById('checkP1').addEventListener('click', ()=>{
+      const ok = (plainA.textContent.trim()===pA && plainB.textContent.trim()===pB);
+      const res = document.getElementById('p1Res'); const exp = document.getElementById('p1Explain');
+      if(ok){ res.textContent='✅ 破譯成功！'; res.className='ok'; exp.classList.remove('hidden'); state.p1=true; updateProgress(); }
+      else { res.textContent='❌ 尚未正確，再調整位移。'; res.className='warn'; }
+    });
+
+    // ---- Puzzle 2: Map order ----
+    const correctPath = ['A','B','C','D','E']; const sel = [];
+    document.querySelectorAll('.place').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        if(sel.length>=5) return; const k = el.dataset.k; sel.push(k); el.classList.add('selected');
+        const node = document.createElement('span'); node.className='crumb'; node.textContent = el.textContent;
+        document.getElementById('path').appendChild(node);
+      });
+    });
+    document.getElementById('undoPath').addEventListener('click', ()=>{
+      if(sel.length===0) return; const last = sel.pop();
+      const cards = [...document.querySelectorAll('.place')]; cards.find(c=>c.dataset.k===last).classList.remove('selected');
+      const crumbs = document.getElementById('path'); crumbs.removeChild(crumbs.lastElementChild);
+    });
+    document.getElementById('hintP2').addEventListener('click', ()=>{ alert('提示：使館→醫師→媒體→警方→外交部。'); });
+    document.getElementById('checkP2').addEventListener('click', ()=>{
+      const res = document.getElementById('p2Res'); if(sel.length!==5){ res.textContent='請先選滿 5 個地點。'; res.className='warn'; return; }
+      const ok = sel.every((v,i)=> v===correctPath[i]);
+      if(ok){ res.textContent='✅ 路徑正確！'; res.className='ok'; document.getElementById('p2Explain').classList.remove('hidden'); state.p2=true; updateProgress(); }
+      else { res.textContent='❌ 路徑不對，再檢視資訊流向。'; res.className='warn'; }
+    });
+
+    // ---- Puzzle 3: Evidence board (desktop drag + mobile tap-to-place) ----
+    const pool = document.getElementById('cluesPool');
+    const zones = document.querySelectorAll('.zone');
+    const clues = [...document.querySelectorAll('.clue')];
+
+    const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints>0);
+    if(!isTouch){
+      // 桌面拖放
+      let dragging=null;
+      clues.forEach(c=>{ c.addEventListener('dragstart',()=>{ dragging=c; c.classList.add('dragging'); }); c.addEventListener('dragend',()=>{ dragging=null; c.classList.remove('dragging'); }); });
+      zones.forEach(z=>{ z.addEventListener('dragover', (e)=>{ e.preventDefault(); }); z.addEventListener('drop', ()=>{ if(dragging) z.appendChild(dragging); }); });
+      pool.addEventListener('dragover', e=> e.preventDefault());
+    } else {
+      // 手機：點選放置
+      document.getElementById('p3Hint').innerHTML = '手機：先點選線索，再點選分類框放入。可再點選線索取消選取。至少放對 6/7 即過關。';
+      clues.forEach(c=> c.setAttribute('draggable','false'));
+      let selected=null;
+      function selectClue(c){
+        if(selected===c){ c.classList.remove('selected'); selected=null; return; }
+        if(selected) selected.classList.remove('selected');
+        selected = c; c.classList.add('selected');
+      }
+      clues.forEach(c=> c.addEventListener('click', ()=> selectClue(c)) );
+      zones.forEach(z=> z.addEventListener('click', ()=>{ if(selected){ z.appendChild(selected); selected.classList.remove('selected'); selected=null; } }) );
+      pool.addEventListener('click', ()=>{ if(selected){ selected.classList.remove('selected'); selected=null; } });
+    }
+
+    document.getElementById('hintP3').addEventListener('click', ()=>{ alert('提示：法理=外交豁免/人身自由；輿論=媒體/國際；行動=警方/外交部/康德黎。'); });
+    document.getElementById('checkP3').addEventListener('click', ()=>{
+      const getCount = type => document.querySelectorAll(`[data-zone="${type}"] .clue[data-cat="${type}"]`).length;
+      const good = getCount('law') + getCount('op') + getCount('act');
+      const res = document.getElementById('p3Res');
+      if(good>=6){ res.textContent=`✅ 歸類完成！正確 ${good}/7。`; res.className='ok'; document.getElementById('p3Explain').classList.remove('hidden'); state.p3=true; updateProgress(); }
+      else { res.textContent=`❌ 目前正確 ${good}/7，還差一點。`; res.className='warn'; }
+    });
+
+    // ---- Puzzle 4: Safe lock ----
+    const dialsY = [...document.querySelectorAll('#lockYear .dial button')]; const digitsY = [0,0,0,0];
+    dialsY.forEach(btn=>{ btn.addEventListener('click', ()=>{ const idx = parseInt(btn.dataset.idx,10); digitsY[idx] = (digitsY[idx]+1)%10; btn.textContent = digitsY[idx]; }); });
+    document.getElementById('uvToggle').addEventListener('change', (e)=>{
+      const on = e.target.checked; document.getElementById('uvMsg').textContent = on ? '黑光開啟：隱藏墨跡可見。' : '黑光關閉中';
+      document.querySelectorAll('.uv').forEach(el=> el.classList.toggle('hidden', !on)); document.querySelectorAll('.uvOff').forEach(el=> el.classList.toggle('hidden', on));
+    });
+    document.getElementById('hintP4').addEventListener('click', ()=>{ alert('提示：將羅馬數字轉成阿拉伯數字。'); });
+    document.getElementById('checkP4').addEventListener('click', ()=>{
+      const res = document.getElementById('p4Res'); const okYear = (digitsY.join('')==='1896');
+      if(okYear){ res.textContent='✅ 已解鎖！'; res.className='ok'; document.getElementById('p4Explain').classList.remove('hidden'); state.p4=true; updateProgress(); }
+      else { res.textContent='❌ 組合不對，打開黑光再找線索。'; res.className='warn'; }
+    });
+
+    // ---- Puzzle 5: Integrative quiz ----
+    function getChecked(name){ return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(i=>i.value); }
+    document.getElementById('checkP5').addEventListener('click', ()=>{
+      const a = getChecked('actors'); const aOK = ['cantlie','media','yard','fo']; const aCorrect = a.length===aOK.length && a.every(v=> aOK.includes(v));
+      const n1 = document.getElementById('p5Next1').value; const n2 = document.getElementById('p5Next2').value; const seqOK = (n1==='police' && n2==='fo');
+      const law = (document.querySelector('input[name="law"]:checked')||{}).value; const lawOK = (law==='correct');
+      const res = document.getElementById('p5Res'); const exp = document.getElementById('p5Explain');
+      const allOK = aCorrect && seqOK && lawOK;
+      if(allOK){ res.textContent='✅ 全部正確！你已完成整合題。'; res.className='ok'; exp.classList.remove('hidden'); state.p5=true; updateProgress(); }
+      else {
+        let msg = '❌ 尚未全對：';
+        if(!aCorrect) msg += '（A）再檢視直接推力；';
+        if(!seqOK)  msg += '（B）（C）路徑順序再想想；';
+        if(!lawOK)  msg += '（D）留意外交豁免與人身自由的界線。';
+        res.textContent = msg; res.className='warn';
+      }
+    });
+    document.getElementById('resetP5').addEventListener('click', ()=>{
+      document.querySelectorAll('input[name="actors"]').forEach(i=> i.checked=false);
+      document.getElementById('p5Next1').value=''; document.getElementById('p5Next2').value='';
+      const selLaw = document.querySelector('input[name="law"]:checked'); if(selLaw) selLaw.checked=false;
+      document.getElementById('p5Res').textContent=''; document.getElementById('p5Explain').classList.add('hidden');
+      state.p5=false; updateProgress();
+    });
+  </script>
 </body>
 </html>
