@@ -598,8 +598,8 @@
     </section>
   </main>
 
-  <!-- ===================== [Story Intro Module] ===================== -->
-  <div id="introOverlay" role="dialog" aria-label="前導敘事" aria-modal="true">
+
+<div id="introOverlay" role="dialog" aria-label="前導敘事" aria-modal="true">
     <div class="scene" aria-hidden="true">
       <div class="stars"></div>
       <div class="stars2"></div>
@@ -623,23 +623,11 @@
       const typeBox = document.getElementById('typeBox');
       const skipBtn = document.getElementById('skipIntro');
       const goBtn   = document.getElementById('beginIntro');
-      const replay  = document.getElementById('replayIntro');
 
-      // 展播控制：?intro=1 強制播放；預設同一分頁僅播放一次
-      const url = new URL(location.href);
-      const force = url.searchParams.get('intro') === '1';
-      const seen  = sessionStorage.getItem('introSeen') === '1';
-      const shouldPlay = force || !seen;
-
-      if (shouldPlay) {
-        showIntro();
-      }
-
-      // 測試用重播按鈕
-      replay?.addEventListener('click', () => {
-        sessionStorage.removeItem('introSeen');
-        showIntro(true);
-      });
+      // 進頁自動播放；若網址帶 ?skip=1 則跳過（方便布展測試）
+      const url   = new URL(location.href);
+      const skip  = url.searchParams.get('skip') === '1';
+      if(!skip){ showIntro(); }
 
       // 進出控制
       skipBtn.addEventListener('click', closeIntro);
@@ -650,16 +638,12 @@
         }
       });
 
-      function showIntro(isReplay=false){
+      function showIntro(){
         // 鎖定背景滾動
         document.documentElement.style.overflow = 'hidden';
         overlay.style.display = 'block';
         typeBox.innerHTML = '';
-        runTypewriter().then(()=>{
-          // 打字完成後把焦點放在主行動鍵
-          goBtn.focus();
-          if(!isReplay){ sessionStorage.setItem('introSeen','1'); }
-        });
+        runTypewriter().then(()=>{ goBtn.focus(); });
       }
 
       function closeIntro(){
@@ -711,8 +695,6 @@
     })();
   </script>
   <!-- =================== [End Story Intro Module] =================== -->
-
-</body>
 
 </body>
 </html>
