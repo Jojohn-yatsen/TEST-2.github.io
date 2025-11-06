@@ -458,15 +458,16 @@
       state.p5=false; updateProgress();
     });
   </script>
+
   <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>《倫敦蒙難記》前導說書測試｜蟲洞序章</title>
-  <meta name="description" content="沉浸式前導說書：星空與蟲洞動畫＋打字機敘事。玩家穿越回 1896 年倫敦，完成任務以恢復歷史。支援略過與強制重播。">
+  <title>《倫敦蒙難記》前導說書｜蟲洞序章（自動播放版）</title>
+  <meta name="description" content="沉浸式前導說書：星空與蟲洞動畫＋打字機敘事。玩家穿越回 1896 年倫敦，完成任務以恢復歷史。進頁自動播放。">
 
-  <!-- 基礎樣式（與你的主站無衝突，命名盡量以 #introOverlay 範圍化） -->
+  <!-- 基礎樣式（與主站無衝突，命名盡量以 #introOverlay 範圍化） -->
   <style>
     :root{
       --ink:#e6efff; --muted:#9db0cf; --panel:#0c1426;
@@ -482,7 +483,7 @@
     a{color:#b9d3ff; text-decoration:none}
     a:hover{text-decoration:underline}
 
-    /* --- 主內容（占位區塊：不會動到你的題目，僅供測試） --- */
+    /* --- 主內容（占位；實際接到你的題目頁時可以保留原內容） --- */
     header{
       padding:28px 18px; text-align:center;
       background:linear-gradient(180deg,#101827,#0f1626);
@@ -496,14 +497,6 @@
       border:1px solid #1f2c48; border-radius:14px; padding:16px;
       box-shadow:0 8px 26px rgba(0,0,0,.3);
     }
-    .btn{
-      appearance:none; border:1px solid #274064;
-      background:linear-gradient(180deg,#1d2d4a,#16233b);
-      color:#eaf2ff; border-radius:10px; padding:10px 14px;
-      cursor:pointer; font-weight:700
-    }
-    .btn:hover{ filter:brightness(1.06) }
-    .muted{ color:var(--muted) }
 
     /* ===================== [Story Intro Module] ===================== */
     /* 整個前導覆蓋層 */
@@ -564,7 +557,13 @@
     @keyframes blink{ 50%{ border-color:transparent } }
 
     .btnRow{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px }
+    .btn{
+      appearance:none; border:1px solid #274064;
+      background:linear-gradient(180deg,#1d2d4a,#16233b);
+      color:#eaf2ff; border-radius:10px; padding:10px 14px; cursor:pointer; font-weight:700
+    }
     .btn.primary{ background:linear-gradient(180deg,#2a3c66,#1b2a4d); border-color:#33528a }
+    .btn:hover{ filter:brightness(1.06) }
 
     /* 小螢幕調整 */
     @media (max-width:520px){
@@ -572,7 +571,7 @@
       .wormhole{ top:38%; width:min(64vmin,480px); height:min(64vmin,480px) }
     }
 
-    /* 盡量尊重系統減少動態設定 */
+    /* 尊重系統減少動態設定 */
     @media (prefers-reduced-motion: reduce){
       .stars, .stars2, .stars3, .wormhole, .wormhole::before, .wormhole::after{ animation:none !important }
     }
@@ -581,25 +580,21 @@
 </head>
 <body>
 
-  <!-- 主內容（僅為測試占位；你的題目頁可保留原狀） -->
+  <!-- 主內容（占位；你的正式題目頁可保留原內容） -->
   <header>
-    <h1>倫敦行動檔案｜前導說書測試頁</h1>
-    <p class="muted">此頁僅測試「說書前導動畫」。你的解謎題目可維持原檔不變。</p>
+    <h1>倫敦行動檔案｜前導說書（自動播放）</h1>
+    <p class="muted">此頁僅測試「說書前導動畫」。你的解謎題目保持原檔不改。</p>
   </header>
 
   <main class="wrap" id="content">
     <section class="card">
       <h2>主內容占位</h2>
-      <p class="muted">在正式串接時，保留你的原有題目與互動；只需把本頁 <strong>Story Intro Module</strong> 區塊複製到你自己的 <code>index.html</code> 之 <code>&lt;/body&gt;</code> 前即可。</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px">
-        <button id="replayIntro" class="btn">重播前導（測試用）</button>
-        ?intro=1以網址參數強制重播</a>
-      </div>
+      <p class="muted">串接時，將下方 <strong>Story Intro Module</strong> 區塊直接複製到你的 <code>index.html</code> 的 <code>&lt;/body&gt;</code> 前即可。</p>
     </section>
   </main>
 
-
-<div id="introOverlay" role="dialog" aria-label="前導敘事" aria-modal="true">
+  <!-- ===================== [Story Intro Module] ===================== -->
+  <div id="introOverlay" role="dialog" aria-label="前導敘事" aria-modal="true">
     <div class="scene" aria-hidden="true">
       <div class="stars"></div>
       <div class="stars2"></div>
@@ -696,5 +691,8 @@
   </script>
   <!-- =================== [End Story Intro Module] =================== -->
 
+</body>
+</html>
+  
 </body>
 </html>
